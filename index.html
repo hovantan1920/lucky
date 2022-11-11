@@ -56,7 +56,6 @@
                         valueOutput.forEach(element => {
                             var mainOutput = {
                                 text: element,
-                                // percentpage: 1 / lengArray,
                             };
                             prizes.push(mainOutput);
                         });
@@ -96,48 +95,8 @@
                     if(counter == prizes.length){
                         return null
                     }
-                    let rand = Math.random();
-                    var lengArray2 = prizes.length + 1;
-                    let prizeRand = rand*lengArray2;
-                    let prizeIndex = prizeRand.toFixed(0);
-                    // for (var index = 0; index < prizes.length; index++) {
-                    //     if(rand < prizes[index].percentpage) {
-                    //         prizeIndex = index;
-                    //     }
-                    // }
-                    // console.log(rand);
-                    // switch (true) {
-                    //     case rand < prizes[0].percentpage:
-                    //     prizeIndex = 0;
-                    //     break;  
-                    //     case rand < prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 1;
-                    //     break;
-                    //     case rand < prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 2;
-                    //     break;
-                    //     case rand < prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 3;
-                    //     break;
-                    //     case rand < prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 4;
-                    //     break;  
-                    //     case rand < prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 5;
-                    //     break;  
-                    //     case rand < prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 6;
-                    //     break;  
-                    //     case rand < prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 7;
-                    //     break; 
-                    //     case rand < prizes[8].percentpage  + prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 8;
-                    //     break; 
-                    //     case rand < prizes[9].percentpage  + prizes[8].percentpage  + prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
-                    //     prizeIndex = 9;
-                    //     break; 
-                    // }
+                    var lengArray2 = prizes.length;
+                    let prizeIndex = Math.floor(Math.random() * lengArray2);
                     if(prizes[prizeIndex].number != 0){
                         prizes[prizeIndex].number = prizes[prizeIndex].number - 1
                         return prizeIndex
@@ -155,12 +114,6 @@
                         return null
                     }
                     var rand = (Math.random() * (prizes.length)) >>> 0;
-                    if(prizes[rand].number != 0){
-                        prizes[rand].number = prizes[rand].number - 1
-                        return rand
-                    }else{
-                        return randomIndex(prizes)
-                    }
                 }
             }
         </script>
