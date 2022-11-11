@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lucky</title>
+        <link rel="stylesheet" href="css/typo/typo.css" />
+        <link rel="stylesheet" href="css/hc-canvas-luckwheel.css" />
+        <style>
+            .hc-luckywheel{
+            position:fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -250px;
+            margin-left: 50px;
+            }
+            .form{
+            padding-top: 150px;
+            padding-left: 50px;
+            }
+        </style>
+    </head>
+    <body class="bg">
+        <div class="wrapper typo" id="wrapper">
+            <section id="luckywheel" class="hc-luckywheel">
+                <div class="hc-luckywheel-container">
+                    <canvas class="hc-luckywheel-canvas" width="500px" height="500px"
+                        >Vòng Xoay May Mắn</canvas
+                        >
+                </div>
+                <a class="hc-luckywheel-btn" href="javascript:;">Xoay</a>
+            </section>
+        </div>
+        <form class="form" action="">
+            <div class="form-group">
+                <textarea rows="10" cols="60" class="form-control" id="text"></textarea>
+            </div>
+            <br>
+        </form>
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="js/hc-canvas-luckwheel.js"></script>
+        <script>
+            var isPercentage = true;
+            var prizes = [];
+            document.addEventListener("DOMContentLoaded", function() {
+                $('#text').keypress(function(event){
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                    var lengArray = prizes.length + 1;
+                    if (keycode == '13') {
+                        $('.hc-luckywheel-list').empty();
+                        prizes.length = 0;
+                        var text = $("#text").val();
+                        var valueOutput = text.split("\n");
+                        valueOutput.forEach(element => {
+                            var mainOutput = {
+                                text: element,
+                                // percentpage: 1 / lengArray,
+                            };
+                            prizes.push(mainOutput);
+                        });
+                        console.log(prizes);
+                        hcLuckywheel.init({
+                            id: "luckywheel",
+                            config: function(callback) {
+                                callback && callback(prizes);
+                            },
+                            mode : "both",
+                            getPrize: function(callback) {
+                                var rand = randomIndex(prizes);
+                                var chances = rand;
+                                callback && callback([rand, chances]);
+                            },
+                            gotBack: function(data) {
+                                Swal.fire(
+                                'Chúng ta có một người chiến thắng!',
+                                data,
+                                'success'
+                                )
+                            }
+                        });
+                        
+                    }
+                });
+            },false );
+                        
+            function randomIndex(prizes){
+                if(isPercentage){
+                    var counter = 1;
+                    for (let i = 0; i < prizes.length; i++) {
+                        if(prizes[i].number == 0){
+                        counter++
+                        }
+                    }
+                    if(counter == prizes.length){
+                        return null
+                    }
+                    let rand = Math.random();
+                    var lengArray2 = prizes.length + 1;
+                    let prizeRand = rand*lengArray2;
+                    let prizeIndex = prizeRand.toFixed(0);
+                    // for (var index = 0; index < prizes.length; index++) {
+                    //     if(rand < prizes[index].percentpage) {
+                    //         prizeIndex = index;
+                    //     }
+                    // }
+                    // console.log(rand);
+                    // switch (true) {
+                    //     case rand < prizes[0].percentpage:
+                    //     prizeIndex = 0;
+                    //     break;  
+                    //     case rand < prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 1;
+                    //     break;
+                    //     case rand < prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 2;
+                    //     break;
+                    //     case rand < prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 3;
+                    //     break;
+                    //     case rand < prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 4;
+                    //     break;  
+                    //     case rand < prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 5;
+                    //     break;  
+                    //     case rand < prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 6;
+                    //     break;  
+                    //     case rand < prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 7;
+                    //     break; 
+                    //     case rand < prizes[8].percentpage  + prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 8;
+                    //     break; 
+                    //     case rand < prizes[9].percentpage  + prizes[8].percentpage  + prizes[7].percentpage  + prizes[6].percentpage  + prizes[5].percentpage  + prizes[4].percentpage  + prizes[3].percentpage  + prizes[2].percentpage  + prizes[1].percentpage  + prizes[0].percentpage:
+                    //     prizeIndex = 9;
+                    //     break; 
+                    // }
+                    if(prizes[prizeIndex].number != 0){
+                        prizes[prizeIndex].number = prizes[prizeIndex].number - 1
+                        return prizeIndex
+                    }else{
+                        return randomIndex(prizes)
+                    }
+                    }else{
+                    var counter = 0;
+                    for (let i = 0; i < prizes.length; i++) {
+                        if(prizes[i].number == 0){
+                        counter++
+                        }
+                    }
+                    if(counter == prizes.length){
+                        return null
+                    }
+                    var rand = (Math.random() * (prizes.length)) >>> 0;
+                    if(prizes[rand].number != 0){
+                        prizes[rand].number = prizes[rand].number - 1
+                        return rand
+                    }else{
+                        return randomIndex(prizes)
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
